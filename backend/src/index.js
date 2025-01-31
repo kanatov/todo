@@ -1,6 +1,7 @@
 process.title = "backend";
 const express = require("express");
 const cors = require("cors");
+const crypto = require("crypto");
 const counterNameValidation = require("./tools/counterNameValidation");
 const app = express();
 const PORT = 3100;
@@ -27,6 +28,7 @@ app.get("/api/todo/:id", async (req, res) => {
 
 // POST new counter
 app.post("/api/todo", async (req, res) => {
+  // const id = crypto.randomBytes(16).toString("hex");
   const { id } = req.body;
   if (!counterNameValidation(id)) {
     res.status(400).json({ error: `Invalid ID name: ${id}` });
