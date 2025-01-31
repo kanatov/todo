@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "node src/tests.js",
+    "supertest": "mocha test/**/*.test.js",
+    "jesttest": "jest --detectOpenHandles --forceExit",
+    "stop": "pkill --signal SIGINT backend"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "mocha": "^11.0.1",
+    "supertest": "^7.0.0"
+  }
+}

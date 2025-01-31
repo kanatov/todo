@@ -2,9 +2,19 @@
   "name": "todo",
   "version": "1.0.0",
   "description": "Vanila Typescript TODO list with mocked backend",
-  "main": "index.html",
+  "main": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "concurrently \"npm:install:*\" build",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "dev": "concurrently \"npm:dev:*\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "concurrently \"npm:build:*\"",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "concurrently \"npm:start:*\"",
+    "start:frontend": "cd frontend && npm run start",
+    "start:backend": "cd backend && npm start"
   },
   "repository": {
     "type": "git",
@@ -15,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/kanatov/todo/issues"
   },
-  "homepage": "https://github.com/kanatov/todo#readme"
+  "homepage": "https://github.com/kanatov/todo#readme",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
 }
