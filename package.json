@@ -1,0 +1,19 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Vanila Typescript TODO list with mocked backend",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanatov/todo.git"
+  },
+  "author": "Ilya Kanatov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanatov/todo/issues"
+  },
+  "homepage": "https://github.com/kanatov/todo#readme"
+}
