@@ -28,29 +28,42 @@ export class Todo {
 
   // Create TODO Item
   createItem(params) {
-    const text = getNode({ tag: "p", children: [params.text] });
+    const text = getNode({ tag: "p", children: params.text });
     const edit = getNode({
       tag: "button",
-      type: "button",
-      children: ["Edit"],
-      data: { action: "edit" },
+      attributes: { type: "button", "data-action": "edit" },
+      children: "Edit",
     });
-    params.children = [text, edit];
+    const del = getNode({
+      tag: "button",
+      children: "Delete",
+      attributes: { type: "button", "data-action": "delete" },
+    });
+    params.children = [text, edit, del];
     return getNode(params);
   }
+
+  // Edit item
   edit(id) {
     console.log("edit", id);
   }
 
+  // Delete item
+  delete(id) {
+    console.log("delete", id);
+  }
+
   // Refresh TODO list
   refreshList() {
-    let list = [getNode({ tag: "p", children: ["No tasks"] })];
+    let list = [getNode({ tag: "p", children: "No tasks" })];
     const tasks = Object.entries(this.data).map(([key, value]) =>
       this.createItem({
         tag: "li",
-        id: `list-item-${key}`,
+        attributes: {
+          id: `list-item-${key}`,
+          "data-id": key,
+        },
         text: value,
-        data: { id: key },
       })
     );
     const ul = getNode({ tag: "ul", children: tasks });
@@ -61,7 +74,7 @@ export class Todo {
 
   // Init TODO app
   init() {
-    this.LIST = getNode({ tag: "section", id: "list" });
+    this.LIST = getNode({ tag: "section", attributes: { id: "list" } });
 
     // Click event
     const listClickHandler = (e) => {
@@ -69,11 +82,20 @@ export class Todo {
       e.stopPropagation();
       if (e.target?.dataset?.action === "edit")
         this.edit.bind(this)(e.target?.parentElement?.dataset?.id);
+      if (e.target?.dataset?.action === "delete")
+        this.delete.bind(this)(e.target?.parentElement?.dataset?.id);
     };
     this.LIST.addEventListener("click", listClickHandler);
 
     // Fetch data and publish node
     this.fetchAll();
+
+    // New task input
+    const input = getNode({ tag: "input" });
+    const newTaskInput = getNode({ tag: "div", children: "New item" });
+    this.ROOT_NODE.appendChild(newTaskInput);
+
+    // Making list public
     this.ROOT_NODE.appendChild(this.LIST);
   }
 }
