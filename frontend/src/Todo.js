@@ -26,6 +26,18 @@ export class Todo {
     }
   }
 
+  // Edit item
+  edit(id) {
+    console.log("edit", id);
+  }
+
+  // Delete item
+  async delete(id) {
+    await fetch(`${this.API_URL}/${id}`, { method: "DELETE" }).then(() =>
+      this.fetchAll()
+    );
+  }
+
   // Create TODO Item
   createItem(params) {
     const text = getNode({ tag: "p", children: params.text });
@@ -43,16 +55,6 @@ export class Todo {
     return getNode(params);
   }
 
-  // Edit item
-  edit(id) {
-    console.log("edit", id);
-  }
-
-  // Delete item
-  delete(id) {
-    console.log("delete", id);
-  }
-
   // Refresh TODO list
   refreshList() {
     let list = [getNode({ tag: "p", children: "No tasks" })];
@@ -62,6 +64,7 @@ export class Todo {
         attributes: {
           id: `list-item-${key}`,
           "data-id": key,
+          class: "todo-item",
         },
         text: value,
       })

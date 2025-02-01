@@ -11,8 +11,8 @@ app.use(express.json());
 
 // GET counters
 const todo = new Map();
-todo.set(1, "First task to do");
-todo.set(2, "Dishwashing");
+todo.set("1", "First task to do");
+todo.set("2", "Dishwashing");
 
 app.get("/api/todo", async (req, res) => {
   res.status(200).json({ message: "ok", result: Object.fromEntries(todo) });
