@@ -10,7 +10,8 @@ export class Todo {
   constructor({ apiUrl, rootNode }) {
     this.API_URL = apiUrl;
     this.ROOT_NODE = rootNode;
-    this.init();
+    this.initNewTaskInput();
+    this.initList();
   }
   async fetchAll() {
     const setData = (data) => {
@@ -26,8 +27,17 @@ export class Todo {
     }
   }
 
+  // Add item
+  async add(text) {
+    await fetch(this.API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ val: text }),
+    }).then(() => this.fetchAll());
+  }
+
   // Edit item
-  edit(id) {
+  async edit(id) {
     console.log("edit", id);
   }
 
@@ -75,8 +85,46 @@ export class Todo {
     this.LIST.replaceChildren(...list);
   }
 
+  // New task input
+  initNewTaskInput() {
+    // Text input
+    const input = getNode({
+      tag: "input",
+      attributes: {
+        type: "text",
+        placeholder: "Enter new task",
+        id: "newTask",
+      },
+    });
+    const inputHandler = (e) => {
+      e.preventDefault();
+      const newValue = e.target.value.slice(0, 20);
+      e.target.value = newValue.replace(/[^a-z ]/gi, "");
+    };
+    input.addEventListener("input", inputHandler);
+
+    // Button input
+    const inputButton = getNode({
+      tag: "button",
+      attributes: { type: "button" },
+      children: "Add",
+    });
+    const inputButtonHandler = (e) => {
+      e.preventDefault();
+      const val = document.getElementById("newTask").value.trim();
+      if (val.length) this.add(val);
+    };
+    inputButton.addEventListener("click", inputButtonHandler);
+
+    const newTaskInput = getNode({
+      tag: "div",
+      children: [input, inputButton],
+    });
+    this.ROOT_NODE.appendChild(newTaskInput);
+  }
+
   // Init TODO app
-  init() {
+  initList() {
     this.LIST = getNode({ tag: "section", attributes: { id: "list" } });
 
     // Click event
@@ -92,11 +140,6 @@ export class Todo {
 
     // Fetch data and publish node
     this.fetchAll();
-
-    // New task input
-    const input = getNode({ tag: "input" });
-    const newTaskInput = getNode({ tag: "div", children: "New item" });
-    this.ROOT_NODE.appendChild(newTaskInput);
 
     // Making list public
     this.ROOT_NODE.appendChild(this.LIST);

@@ -28,17 +28,9 @@ app.get("/api/todo/:id", async (req, res) => {
 
 // POST new counter
 app.post("/api/todo", async (req, res) => {
-  // const id = crypto.randomBytes(16).toString("hex");
-  const { id } = req.body;
-  if (!counterNameValidation(id)) {
-    res.status(400).json({ error: `Invalid ID name: ${id}` });
-    return;
-  }
-  if (todo.has(id)) {
-    res.status(409).json({ error: `Existing counter with ID: ${id}` });
-    return;
-  }
-  todo.set(id, 1);
+  const { val } = req.body;
+  const id = crypto.randomBytes(8).toString("hex");
+  todo.set(id, val);
   res.status(201).json({ message: "ok", result: id });
 });
 
